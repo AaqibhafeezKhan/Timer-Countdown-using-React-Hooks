@@ -12,16 +12,20 @@ body {
   text-align: center;
 }
 
-.countdown-timer {
+.clock {
+  display: inline-block;
   font-size: 2em;
-  background-color: #3498db;
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  color: #333;
 }
 
-a {
+.timer {
+  font-size: 1.5em;
+  color: #3498db;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+button {
   display: block;
   padding: 10px;
   text-decoration: none;
@@ -31,6 +35,6 @@ a {
   margin-top: 20px;
 }
 
-a:hover {
+button:hover {
   background-color: #27ae60;
 }
