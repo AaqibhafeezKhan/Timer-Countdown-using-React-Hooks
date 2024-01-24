@@ -1,0 +1,36 @@
+body {
+  font-family: 'Lato', sans-serif;
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.timer-container {
+  text-align: center;
+}
+
+.countdown-timer {
+  font-size: 2em;
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+a {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #2ecc71;
+  border-radius: 5px;
+  margin-top: 20px;
+}
+
+a:hover {
+  background-color: #27ae60;
+}
