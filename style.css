@@ -1,6 +1,6 @@
 body {
   font-family: 'Lato', sans-serif;
-  background-color: #f4f4f4;
+  background-color: #ecf0f1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,27 +14,39 @@ body {
 
 .clock {
   display: inline-block;
-  font-size: 2em;
-  color: #333;
+  font-size: 3em;
+  color: #3498db;
+  animation: pulse 1.5s infinite alternate;
 }
 
 .timer {
   font-size: 1.5em;
-  color: #3498db;
+  color: #e74c3c;
   font-weight: bold;
   margin-top: 10px;
 }
 
 button {
-  display: block;
-  padding: 10px;
+  display: inline-block;
+  padding: 15px 30px;
   text-decoration: none;
   color: #fff;
   background-color: #2ecc71;
   border-radius: 5px;
   margin-top: 20px;
+  font-size: 1em;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s ease-in-out;
 }
 
 button:hover {
   background-color: #27ae60;
+}
+
+@keyframes pulse {
+  to {
+    transform: scale(1.1);
+    color: #2980b9;
+  }
 }
