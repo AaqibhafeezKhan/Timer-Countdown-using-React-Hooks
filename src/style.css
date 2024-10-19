@@ -1,53 +1,85 @@
 body {
     font-family: 'Lato', sans-serif;
-    background-color: #ecf0f1;
+    background: linear-gradient(to bottom, #74ebd5, #acb6e5);
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;
     margin: 0;
-  }
-  
-  .timer-container {
+    color: #2c3e50;
+}
+
+.timer-container {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
-  }
-  
-  .clock {
+    width: 90%;
+    max-width: 400px;
+}
+
+.clock {
     display: inline-block;
-    font-size: 3em;
+    font-size: 4em;
     color: #3498db;
     animation: pulse 1.5s infinite alternate;
-  }
-  
-  .timer {
+    margin-bottom: 20px;
+}
+
+.timer {
     font-size: 1.5em;
     color: #e74c3c;
     font-weight: bold;
     margin-top: 10px;
-  }
-  
-  button {
+}
+
+button {
     display: inline-block;
     padding: 15px 30px;
     text-decoration: none;
     color: #fff;
-    background-color: #2ecc71;
-    border-radius: 5px;
-    margin-top: 20px;
+    background-color: #2980b9;
+    border-radius: 50px;
+    margin: 15px 10px;
     font-size: 1em;
     cursor: pointer;
     border: none;
-    transition: background-color 0.3s ease-in-out;
-  }
-  
-  button:hover {
-    background-color: #27ae60;
-  }
-  
-  @keyframes pulse {
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+}
+
+button:hover {
+    background-color: #1c6691;
+    transform: translateY(-3px);
+}
+
+button:active {
+    transform: translateY(2px);
+}
+
+button .fas {
+    margin-right: 8px;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 2px solid #3498db;
+    text-align: center;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input[type="number"]:focus {
+    border-color: #2980b9;
+}
+
+@keyframes pulse {
     to {
-      transform: scale(1.1);
-      color: #2980b9;
+        transform: scale(1.1);
+        color: #2ecc71;
     }
-  }
-  
+}
