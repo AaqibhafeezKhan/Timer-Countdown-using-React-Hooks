@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Timer-Countdown-using-React-Hooks/static/css/main.c4bcdd99.css",
+    "main.js": "/Timer-Countdown-using-React-Hooks/static/js/main.8e9dde19.js",
+    "index.html": "/Timer-Countdown-using-React-Hooks/index.html",
+    "main.c4bcdd99.css.map": "/Timer-Countdown-using-React-Hooks/static/css/main.c4bcdd99.css.map",
+    "main.8e9dde19.js.map": "/Timer-Countdown-using-React-Hooks/static/js/main.8e9dde19.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c4bcdd99.css",
+    "static/js/main.8e9dde19.js"
+  ]
+}
