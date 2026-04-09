@@ -9,13 +9,30 @@ const App = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [taskName, setTaskName] = useState('Custom Timer');
 
+  // NEW FEATURES
+  const [isMuted, setIsMuted] = useState(false);
+  const [pomodorosCompleted, setPomodorosCompleted] = useState(0);
+
   const [inputMinutes, setInputMinutes] = useState('');
   const [inputSeconds, setInputSeconds] = useState('');
 
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
 
+  // Sync Tab Title dynamically
+  useEffect(() => {
+    if (isActive && !isPaused) {
+      const m = Math.floor(totalSeconds / 60);
+      const s = totalSeconds % 60;
+      document.title = `(${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}) ${taskName}`;
+    } else {
+      document.title = 'Pomodoro Timer React';
+    }
+  }, [totalSeconds, isActive, isPaused, taskName]);
+
   const playBeep = () => {
+    if (isMuted) return; // Feature: Mute toggle respect
+    
     if (!audioContextRef.current) {
       audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
     }
@@ -47,6 +64,11 @@ const App = () => {
             clearInterval(intervalRef.current);
             setIsActive(false);
             playBeep();
+            
+            // Feature: Track completed Pomodoro streaks
+            if (taskName === 'Pomodoro Work') {
+              setPomodorosCompleted(c => c + 1);
+            }
             return 0;
           }
           return prev - 1;
@@ -57,7 +79,7 @@ const App = () => {
     }
 
     return () => clearInterval(intervalRef.current);
-  }, [isActive, isPaused, totalSeconds]);
+  }, [isActive, isPaused, totalSeconds, taskName, isMuted]);
 
   const handleStart = () => {
     if (totalSeconds === 0) {
@@ -116,6 +138,17 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="timer-card">
+        
+        <div className="header-controls">
+          <button 
+             className="mute-btn" 
+             onClick={() => setIsMuted(m => !m)}
+             title={isMuted ? "Unmute Alarm" : "Mute Alarm"}
+          >
+            {isMuted ? '🔇' : '🔊'}
+          </button>
+        </div>
+
         <h2 className="task-title">{taskName}</h2>
         
         <div className="timer-display-container">
@@ -147,6 +180,14 @@ const App = () => {
           <div className="timer-text">
             {formatTime(totalSeconds || (parseInt(inputMinutes || 0) * 60 + parseInt(inputSeconds || 0)))}
           </div>
+        </div>
+
+        <div className="stats-container">
+          {pomodorosCompleted > 0 && (
+            <div className="pomodoro-streak">
+              🔥 Streak: {pomodorosCompleted} Pomodoros completed!
+            </div>
+          )}
         </div>
 
         {!isActive && totalSeconds === 0 && (

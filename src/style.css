@@ -198,3 +198,42 @@ body {
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
 }
+
+/* NEW FEATURES STYLING */
+.header-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -15px;
+}
+
+.mute-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  filter: grayscale(0.5);
+  transition: filter 0.2s;
+  padding: 5px;
+}
+
+.mute-btn:hover {
+  filter: grayscale(0);
+}
+
+.stats-container {
+  min-height: 25px;
+  margin-top: 15px;
+  margin-bottom: -10px;
+}
+
+.pomodoro-streak {
+  font-size: 0.9rem;
+  color: #fb923c;
+  font-weight: 600;
+  animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
