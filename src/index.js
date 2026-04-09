@@ -1,125 +1,206 @@
 import React, { useState, useRef, useEffect } from 'react';
-
 import { render } from 'react-dom';
-
 import './style.css';
 
 const App = () => {
-  const [timer, setTimer] = useState('0:00');
+  const [totalSeconds, setTotalSeconds] = useState(0);
+  const [initialSeconds, setInitialSeconds] = useState(0);
+  const [isActive, setIsActive] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [taskName, setTaskName] = useState('Custom Timer');
 
-  const [minutesValue, setMinutesValue] = useState();
+  const [inputMinutes, setInputMinutes] = useState('');
+  const [inputSeconds, setInputSeconds] = useState('');
 
-  const [secondsValue, setSecondsValue] = useState();
+  const intervalRef = useRef(null);
+  const audioContextRef = useRef(null);
 
-  const [pause, setPause] = useState(false);
-
-  const [active, setActive] = useState(false);
-
-  const [count, setCount] = useState(0);
-
-  let initCounter = () => {
-    let m = Math.floor(count / 60);
-
-    let s = count - m * 60;
-
-    if (count >= 0) {
-      setCount((count) => count - 1);
-
-      setTimer((m > 9 ? m : '0' + m) + ':' + (s > 9 ? s : '0' + s));
-
-      console.log(count, m, s);
+  const playBeep = () => {
+    if (!audioContextRef.current) {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
     }
-  };
+    const ctx = audioContextRef.current;
+    if (ctx.state === 'suspended') ctx.resume();
 
-  const interval = useRef(null);
+    const osc = ctx.createOscillator();
+    const gainNode = ctx.createGain();
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.5);
+    
+    gainNode.gain.setValueAtTime(0.5, ctx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+    
+    osc.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    osc.start();
+    osc.stop(ctx.currentTime + 0.5);
+  };
 
   useEffect(() => {
-    if (!pause && active) {
-      interval.current = setInterval(() => {
-        if (count >= 0) {
-          initCounter();
-        }
+    if (isActive && !isPaused && totalSeconds > 0) {
+      intervalRef.current = setInterval(() => {
+        setTotalSeconds((prev) => {
+          if (prev <= 1) {
+            clearInterval(intervalRef.current);
+            setIsActive(false);
+            playBeep();
+            return 0;
+          }
+          return prev - 1;
+        });
       }, 1000);
     } else {
-      clearInterval(interval.current);
-
-      interval.current = null;
+      clearInterval(intervalRef.current);
     }
 
-    return () => {
-      clearInterval(interval.current);
-    };
-  }, [pause, active, count]);
-
-  const handleRun = () => {
-    setPause((pause) => !pause);
-  };
-
-  const handleChangeMin = (event) => {
-    setCount(
-      Number(event.target.value) * 60 + (secondsValue > 0 ? secondsValue : 0)
-    );
-
-    console.log(count);
-
-    setMinutesValue(Number(event.target.value));
-  };
-
-  const handleChangeSec = (event) => {
-    setCount(minutesValue ? minutesValue * 60 : 0 + Number(event.target.value));
-
-    setSecondsValue(Number(event.target.value));
-  };
+    return () => clearInterval(intervalRef.current);
+  }, [isActive, isPaused, totalSeconds]);
 
   const handleStart = () => {
-    setActive((active) => !active);
+    if (totalSeconds === 0) {
+      const mins = parseInt(inputMinutes || 0, 10);
+      const secs = parseInt(inputSeconds || 0, 10);
+      const total = mins * 60 + secs;
+      if (total > 0) {
+        setTotalSeconds(total);
+        setInitialSeconds(total);
+        setIsActive(true);
+        setIsPaused(false);
+        if (taskName === 'Custom Timer') setTaskName('Focus Time');
+      }
+    } else {
+      setIsActive(true);
+      setIsPaused(false);
+    }
   };
 
-  let reset = (e) => {
-    setTimer('0:00');
-
-    setCount(0);
-
-    setMinutesValue(0);
-
-    setSecondsValue(0);
-
-    setActive(false);
+  const handlePause = () => {
+    setIsPaused(true);
   };
+
+  const handleReset = () => {
+    setIsActive(false);
+    setIsPaused(false);
+    setTotalSeconds(0);
+    setInitialSeconds(0);
+    setInputMinutes('');
+    setInputSeconds('');
+    setTaskName('Custom Timer');
+  };
+
+  const setPreset = (mins, name) => {
+    const total = mins * 60;
+    setTotalSeconds(total);
+    setInitialSeconds(total);
+    setTaskName(name);
+    setInputMinutes(mins.toString());
+    setInputSeconds('0');
+    setIsActive(false);
+    setIsPaused(false);
+  };
+
+  const formatTime = (seconds) => {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
+
+  const progress = initialSeconds > 0 ? totalSeconds / initialSeconds : 0;
+  const radius = 120;
+  const circumference = 2 * Math.PI * radius;
+  const strokeDashoffset = circumference - progress * circumference;
 
   return (
-    <div>
-      <div>
-        <label>
-          <input
-            id="minute"
-            name="minute"
-            type="number"
-            value={minutesValue}
-            onChange={handleChangeMin}
-          />
-          Minutes
-        </label>
+    <div className="app-container">
+      <div className="timer-card">
+        <h2 className="task-title">{taskName}</h2>
+        
+        <div className="timer-display-container">
+          <svg className="progress-ring" width="280" height="280">
+            <circle
+              className="progress-ring__track"
+              stroke="#2d3748"
+              strokeWidth="8"
+              fill="transparent"
+              r={radius}
+              cx="140"
+              cy="140"
+            />
+            <circle
+              className="progress-ring__circle"
+              stroke="#4fd1c5"
+              strokeWidth="8"
+              strokeLinecap="round"
+              fill="transparent"
+              r={radius}
+              cx="140"
+              cy="140"
+              style={{
+                strokeDasharray: circumference,
+                strokeDashoffset: strokeDashoffset,
+              }}
+            />
+          </svg>
+          <div className="timer-text">
+            {formatTime(totalSeconds || (parseInt(inputMinutes || 0) * 60 + parseInt(inputSeconds || 0)))}
+          </div>
+        </div>
 
-        <label>
-          <input
-            id="id1"
-            name="minute1"
-            type="number"
-            value={secondsValue}
-            onChange={handleChangeSec}
-          />
-          Seconds
-        </label>
+        {!isActive && totalSeconds === 0 && (
+          <div className="input-group">
+            <div className="input-wrapper">
+              <input
+                type="number"
+                min="0"
+                placeholder="00"
+                value={inputMinutes}
+                onChange={(e) => setInputMinutes(e.target.value)}
+              />
+              <span>min</span>
+            </div>
+            <span className="colon">:</span>
+            <div className="input-wrapper">
+              <input
+                type="number"
+                min="0"
+                max="59"
+                placeholder="00"
+                value={inputSeconds}
+                onChange={(e) => setInputSeconds(e.target.value)}
+              />
+              <span>sec</span>
+            </div>
+          </div>
+        )}
+
+        <div className="controls">
+          {!isActive && !isPaused && totalSeconds === 0 ? (
+            <button className="btn btn-primary" onClick={handleStart}>START</button>
+          ) : (
+            <>
+              {(!isActive || isPaused) ? (
+                <button className="btn btn-primary" onClick={handleStart}>RESUME</button>
+              ) : (
+                <button className="btn btn-warning" onClick={handlePause}>PAUSE</button>
+              )}
+              <button className="btn btn-danger" onClick={handleReset}>RESET</button>
+            </>
+          )}
+        </div>
+
+        <div className="presets">
+          <p>Quick Presets</p>
+          <div className="preset-buttons">
+            <button className="btn-preset" onClick={() => setPreset(25, 'Pomodoro Work')}>25m Work</button>
+            <button className="btn-preset" onClick={() => setPreset(5, 'Short Break')}>5m Break</button>
+            <button className="btn-preset" onClick={() => setPreset(15, 'Long Break')}>15m Break</button>
+          </div>
+        </div>
+
       </div>
-
-      <button onClick={handleStart}>START</button>
-
-      <button onClick={handleRun}>{pause ? 'Run' : 'Pause'}</button>
-
-      <button onClick={reset}>Reset</button>
-
-      <h1>{timer}</h1>
     </div>
   );
 };
