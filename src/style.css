@@ -7,9 +7,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh; /* Changed from height to min-height to allow scrolling if needed */
+  min-height: 100vh;
   margin: 0;
-  padding: 20px; /* Added padding to prevent card hitting edges */
+  padding: 20px;
   box-sizing: border-box;
 }
 
@@ -132,11 +132,24 @@ body {
   letter-spacing: 1px;
 }
 
-.btn-primary { background: linear-gradient(135deg, #38b2ac, #319795); color: white; }
-.btn-warning { background: linear-gradient(135deg, #f6e05e, #d69e2e); color: #1a202c; }
-.btn-danger { background: transparent; border: 1px solid #fc8181; color: #fc8181; }
+.btn-primary {
+  background: linear-gradient(135deg, #38b2ac, #319795);
+  color: white;
+}
+.btn-warning {
+  background: linear-gradient(135deg, #f6e05e, #d69e2e);
+  color: #1a202c;
+}
+.btn-danger {
+  background: transparent;
+  border: 1px solid #fc8181;
+  color: #fc8181;
+}
 
-.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
 
 .presets {
   margin-top: 2.5rem;
@@ -144,7 +157,11 @@ body {
   padding-top: 1.5rem;
 }
 
-.presets p { color: #94a3b8; margin-bottom: 1rem; font-size: 0.8rem; }
+.presets p {
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+}
 
 .preset-buttons {
   display: flex;
@@ -164,32 +181,92 @@ body {
   transition: all 0.2s;
 }
 
-.btn-preset:hover { background: rgba(255, 255, 255, 0.15); color: #fff; }
+.btn-preset:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
 
-.header-controls { display: flex; justify-content: flex-end; margin-bottom: -1rem; }
-.mute-btn { background: transparent; border: none; font-size: 1.25rem; cursor: pointer; opacity: 0.6; transition: opacity 0.2s; }
-.mute-btn:hover { opacity: 1; }
+.header-controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: -1rem;
+}
+.mute-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.2s;
+}
+.mute-btn:hover {
+  opacity: 1;
+}
 
-.stats-container { min-height: 20px; margin-top: 1rem; }
-.pomodoro-streak { font-size: 0.85rem; color: #fb923c; font-weight: 600; }
+.stats-container {
+  min-height: 20px;
+  margin-top: 1rem;
+}
+.pomodoro-streak {
+  font-size: 0.85rem;
+  color: #fb923c;
+  font-weight: 600;
+}
 
-/* Responsive adjustments */
 @media (max-width: 480px) {
-  .timer-card { padding: 1.5rem; }
-  .timer-display-container { width: 220px; height: 220px; }
-  .progress-ring { width: 220px; height: 220px; }
-  .progress-ring circle { r: 90; cx: 110; cy: 110; }
-  .timer-text { font-size: 3rem; }
-  .task-title { font-size: 1rem; }
-  .btn { padding: 0.6rem 1.2rem; font-size: 0.8rem; }
+  .timer-card {
+    padding: 1.5rem;
+  }
+  .timer-display-container {
+    width: 220px;
+    height: 220px;
+  }
+  .progress-ring {
+    width: 220px;
+    height: 220px;
+  }
+  .progress-ring circle {
+    r: 90;
+    cx: 110;
+    cy: 110;
+  }
+  .timer-text {
+    font-size: 3rem;
+  }
+  .task-title {
+    font-size: 1rem;
+  }
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-height: 700px) {
-  .timer-card { padding: 1rem; }
-  .task-title { margin-bottom: 1rem; }
-  .presets { margin-top: 1.5rem; padding-top: 1rem; }
-  .timer-display-container { width: 200px; height: 200px; }
-  .progress-ring { width: 200px; height: 200px; }
-  .progress-ring circle { r: 80; cx: 100; cy: 100; }
-  .timer-text { font-size: 2.5rem; }
+  .timer-card {
+    padding: 1rem;
+  }
+  .task-title {
+    margin-bottom: 1rem;
+  }
+  .presets {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+  }
+  .timer-display-container {
+    width: 200px;
+    height: 200px;
+  }
+  .progress-ring {
+    width: 200px;
+    height: 200px;
+  }
+  .progress-ring circle {
+    r: 80;
+    cx: 100;
+    cy: 100;
+  }
+  .timer-text {
+    font-size: 2.5rem;
+  }
 }

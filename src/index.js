@@ -9,7 +9,6 @@ const App = () => {
   const [isPaused, setIsPaused] = useState(false);
   const [taskName, setTaskName] = useState('Custom Timer');
 
-  // NEW FEATURES
   const [isMuted, setIsMuted] = useState(false);
   const [pomodorosCompleted, setPomodorosCompleted] = useState(0);
 
@@ -19,7 +18,6 @@ const App = () => {
   const intervalRef = useRef(null);
   const audioContextRef = useRef(null);
 
-  // Sync Tab Title dynamically
   useEffect(() => {
     if (isActive && !isPaused) {
       const m = Math.floor(totalSeconds / 60);
@@ -32,7 +30,7 @@ const App = () => {
 
   const playBeep = () => {
     if (isMuted) return;
-    
+
     if (!audioContextRef.current) {
       audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
     }
@@ -42,17 +40,17 @@ const App = () => {
     const playTone = (freq, startTime, duration) => {
       const osc = ctx.createOscillator();
       const gainNode = ctx.createGain();
-      
+
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, startTime);
       osc.frequency.exponentialRampToValueAtTime(freq / 2, startTime + duration);
-      
+
       gainNode.gain.setValueAtTime(0.3, startTime);
       gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
-      
+
       osc.connect(gainNode);
       gainNode.connect(ctx.destination);
-      
+
       osc.start(startTime);
       osc.stop(startTime + duration);
     };
@@ -71,10 +69,9 @@ const App = () => {
             clearInterval(intervalRef.current);
             setIsActive(false);
             playBeep();
-            
-            // Feature: Track completed Pomodoro streaks
+
             if (taskName === 'Pomodoro Work') {
-              setPomodorosCompleted(c => c + 1);
+              setPomodorosCompleted((c) => c + 1);
             }
             return 0;
           }
@@ -145,19 +142,18 @@ const App = () => {
   return (
     <div className="app-container">
       <div className="timer-card">
-        
         <div className="header-controls">
-          <button 
-             className="mute-btn" 
-             onClick={() => setIsMuted(m => !m)}
-             title={isMuted ? "Unmute Alarm" : "Mute Alarm"}
+          <button
+            className="mute-btn"
+            onClick={() => setIsMuted((m) => !m)}
+            title={isMuted ? 'Unmute Alarm' : 'Mute Alarm'}
           >
             {isMuted ? '🔇' : '🔊'}
           </button>
         </div>
 
         <h2 className="task-title">{taskName}</h2>
-        
+
         <div className="timer-display-container">
           <svg className="progress-ring" width="280" height="280">
             <circle
@@ -185,7 +181,10 @@ const App = () => {
             />
           </svg>
           <div className="timer-text">
-            {formatTime(totalSeconds || (parseInt(inputMinutes || 0) * 60 + parseInt(inputSeconds || 0)))}
+            {formatTime(
+              totalSeconds ||
+                parseInt(inputMinutes || 0) * 60 + parseInt(inputSeconds || 0)
+            )}
           </div>
         </div>
 
@@ -226,15 +225,23 @@ const App = () => {
 
         <div className="controls">
           {!isActive && !isPaused && totalSeconds === 0 ? (
-            <button className="btn btn-primary" onClick={handleStart}>START</button>
+            <button className="btn btn-primary" onClick={handleStart}>
+              START
+            </button>
           ) : (
             <>
-              {(!isActive || isPaused) ? (
-                <button className="btn btn-primary" onClick={handleStart}>RESUME</button>
+              {!isActive || isPaused ? (
+                <button className="btn btn-primary" onClick={handleStart}>
+                  RESUME
+                </button>
               ) : (
-                <button className="btn btn-warning" onClick={handlePause}>PAUSE</button>
+                <button className="btn btn-warning" onClick={handlePause}>
+                  PAUSE
+                </button>
               )}
-              <button className="btn btn-danger" onClick={handleReset}>RESET</button>
+              <button className="btn btn-danger" onClick={handleReset}>
+                RESET
+              </button>
             </>
           )}
         </div>
@@ -242,12 +249,26 @@ const App = () => {
         <div className="presets">
           <p>Quick Presets</p>
           <div className="preset-buttons">
-            <button className="btn-preset" onClick={() => setPreset(25, 'Pomodoro Work')}>25m Work</button>
-            <button className="btn-preset" onClick={() => setPreset(5, 'Short Break')}>5m Break</button>
-            <button className="btn-preset" onClick={() => setPreset(15, 'Long Break')}>15m Break</button>
+            <button
+              className="btn-preset"
+              onClick={() => setPreset(25, 'Pomodoro Work')}
+            >
+              25m Work
+            </button>
+            <button
+              className="btn-preset"
+              onClick={() => setPreset(5, 'Short Break')}
+            >
+              5m Break
+            </button>
+            <button
+              className="btn-preset"
+              onClick={() => setPreset(15, 'Long Break')}
+            >
+              15m Break
+            </button>
           </div>
         </div>
-
       </div>
     </div>
   );
