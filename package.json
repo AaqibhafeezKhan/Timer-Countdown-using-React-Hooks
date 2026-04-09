@@ -8,7 +8,7 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
-  "homepage": "https://AaqibhafeezKhan.github.io/Timer-Countdown-using-React-Hooks",
+  "homepage": "https://AaqibhafeezKhan.github.io/ZenTime-Pomodoro",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
