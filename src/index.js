@@ -135,7 +135,7 @@ const App = () => {
   };
 
   const progress = initialSeconds > 0 ? totalSeconds / initialSeconds : 0;
-  const radius = 120;
+  const radius = 90;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - progress * circumference;
 
@@ -155,15 +155,15 @@ const App = () => {
         <h2 className="task-title">{taskName}</h2>
 
         <div className="timer-display-container">
-          <svg className="progress-ring" width="280" height="280">
+          <svg className="progress-ring" width="220" height="220">
             <circle
               className="progress-ring__track"
               stroke="#2d3748"
               strokeWidth="8"
               fill="transparent"
               r={radius}
-              cx="140"
-              cy="140"
+              cx="110"
+              cy="110"
             />
             <circle
               className="progress-ring__circle"
@@ -172,8 +172,8 @@ const App = () => {
               strokeLinecap="round"
               fill="transparent"
               r={radius}
-              cx="140"
-              cy="140"
+              cx="110"
+              cy="110"
               style={{
                 strokeDasharray: circumference,
                 strokeDashoffset: strokeDashoffset,
