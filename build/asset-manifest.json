@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/Timer-Countdown-using-React-Hooks/static/css/main.728138e5.css",
-    "main.js": "/Timer-Countdown-using-React-Hooks/static/js/main.5b3bfd60.js",
-    "index.html": "/Timer-Countdown-using-React-Hooks/index.html",
-    "main.728138e5.css.map": "/Timer-Countdown-using-React-Hooks/static/css/main.728138e5.css.map",
-    "main.5b3bfd60.js.map": "/Timer-Countdown-using-React-Hooks/static/js/main.5b3bfd60.js.map"
+    "main.css": "/ZenTime-Pomodoro/static/css/main.95c06b4e.css",
+    "main.js": "/ZenTime-Pomodoro/static/js/main.04cfb36f.js",
+    "index.html": "/ZenTime-Pomodoro/index.html",
+    "main.95c06b4e.css.map": "/ZenTime-Pomodoro/static/css/main.95c06b4e.css.map",
+    "main.04cfb36f.js.map": "/ZenTime-Pomodoro/static/js/main.04cfb36f.js.map"
   },
   "entrypoints": [
-    "static/css/main.728138e5.css",
-    "static/js/main.5b3bfd60.js"
+    "static/css/main.95c06b4e.css",
+    "static/js/main.04cfb36f.js"
   ]
 }
